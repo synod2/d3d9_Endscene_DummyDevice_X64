@@ -21,7 +21,7 @@ DWORD HookMain() {
     cout << "pEndScene : " << setbase(16) << pEndScene << endl;
 
     if (pEndScene) {
-        oEndScene = (tEndScene)hook::hookTramp(pEndScene, (DWORD64)hook::hEndScene, 14);
+        oEndScene = (tEndScene)hook::hookTramp(pEndScene, (DWORD64)hook::hEndScene, 18);
     }
 
     if (!oEndScene)

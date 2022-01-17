@@ -9,6 +9,9 @@
 
 using namespace std;
 void* dtable[119];
+void DrawFilledRect(int x, int y, int w, int h, D3DCOLOR color, IDirect3DDevice9* dev);
+
+
 namespace d3dhelper {
 	static HWND window;
 	
@@ -81,11 +84,13 @@ tEndScene oEndScene = NULL;
 
 namespace hook {
 	HRESULT APIENTRY hEndScene(LPDIRECT3DDEVICE9 pDevice) {
-		DLogs(0, "Hook Successful!");
+		/*DLogs(0, "Hook Successful!");*/
+		DrawFilledRect(200, 200, 200, 200, D3DCOLOR_ARGB(255, 255, 0, 0), pDevice);
 		return oEndScene(pDevice);
 	}
 	//minimum length size is 12
 	PVOID hookTramp(DWORD64 src, DWORD64 target, DWORD len) {
+		DLogs(1, "Make Trampoline");
 		if (len < 12) {
 			DLogs(0, "too small overwrite length");
 			return 0;
@@ -141,4 +146,10 @@ namespace hook {
 	}
 
 
+}
+
+void DrawFilledRect(int x, int y, int w, int h, D3DCOLOR color, IDirect3DDevice9* dev)
+{
+	D3DRECT BarRect = { x, y, x + w, y + h };
+	dev->Clear(1, &BarRect, D3DCLEAR_TARGET | D3DCLEAR_TARGET, color, 0, 0);
 }
